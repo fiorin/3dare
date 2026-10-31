@@ -1,0 +1,6 @@
+# Build-only dependency for the local Windows generation-service executable.
+PyInstaller==6.13.0
+altgraph==0.17.5
+pefile==2023.2.7
+pyinstaller-hooks-contrib==2026.9
+pywin32-ctypes==0.2.3
