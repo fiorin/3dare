@@ -166,7 +166,7 @@ fn main() {
             Ok(())
         })
         .build(tauri::generate_context!())
-        .expect("failed to build FormForge desktop application");
+        .expect("failed to build 3dare desktop application");
 
     app.run(|app_handle, event| {
         if matches!(event, RunEvent::Exit) {

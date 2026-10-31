@@ -73,8 +73,8 @@ finally {
     Pop-Location
 }
 
-$InstallerSource = Get-ChildItem -LiteralPath (Join-Path $Root "apps\desktop\src-tauri\target\release\bundle\nsis") -Filter "FormForge_*_x64-setup.exe" | Select-Object -First 1
-if (-not $InstallerSource) { throw "The Tauri build did not produce a FormForge NSIS installer." }
+$InstallerSource = Get-ChildItem -LiteralPath (Join-Path $Root "apps\desktop\src-tauri\target\release\bundle\nsis") -Filter "3dare_*_x64-setup.exe" | Select-Object -First 1
+if (-not $InstallerSource) { throw "The Tauri build did not produce a 3dare NSIS installer." }
 Copy-Item -LiteralPath $InstallerSource.FullName -Destination $PackageRoot
 
 Add-Type -AssemblyName System.IO.Compression
@@ -127,14 +127,14 @@ Copy-Item -LiteralPath (Join-Path $PSScriptRoot "setup-windows.ps1") -Destinatio
 Copy-Item -LiteralPath (Join-Path $Root "models\README.md") -Destination (Join-Path $PackageRoot "MODEL-WEIGHTS.txt")
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot "diagnose-windows.ps1") -Destination $PackageRoot
 @(
-    "FormForge for Windows x64"
+    "3dare for Windows x64"
     ""
     "Keep this folder intact and run setup-windows.ps1 from PowerShell. It verifies the runtime ZIP checksums, installs the local service runtime, and installs the desktop app for the current user."
     ""
     "The runtime requires at least 4.5 GB free on its destination drive. If the system drive is short on space, run:"
-    "powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -RuntimeDirectory E:\FormForgeRuntime"
+    "powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 -RuntimeDirectory E:\3dareRuntime"
     ""
-    "The first generation requires an internet connection to download the approximately 1.68 GB TripoSR checkpoint. Inference remains local. Later generations can run offline from the cached weights. If C: lacks 2.5 GB free, pass -ModelCacheDirectory E:\FormForgeModels to setup-windows.ps1."
+    "The first generation requires an internet connection to download the approximately 1.68 GB TripoSR checkpoint. Inference remains local. Later generations can run offline from the cached weights. If C: lacks 2.5 GB free, pass -ModelCacheDirectory E:\3dareModels to setup-windows.ps1."
     ""
     "The checkpoint is not redistributed by this package. Review MODEL-WEIGHTS.txt and the Hugging Face model card for its license terms."
 ) | Set-Content -LiteralPath (Join-Path $PackageRoot "README.txt") -Encoding utf8

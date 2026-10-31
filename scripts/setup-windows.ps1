@@ -5,11 +5,11 @@ $ErrorActionPreference = "Stop"
 $PackageRoot = $PSScriptRoot
 $RuntimeParts = @(Get-ChildItem -LiteralPath $PackageRoot -Filter "generation-runtime-part-*.zip" | Sort-Object Name)
 $ManifestPath = Join-Path $PackageRoot "generation-runtime.sha256"
-$Installer = Get-ChildItem -LiteralPath $PackageRoot -Filter "FormForge_*_x64-setup.exe" | Select-Object -First 1
+$Installer = Get-ChildItem -LiteralPath $PackageRoot -Filter "3dare_*_x64-setup.exe" | Select-Object -First 1
 
 if ($RuntimeParts.Count -eq 0) { throw "No generation runtime archives were found beside this script." }
 if (-not (Test-Path -LiteralPath $ManifestPath)) { throw "The runtime checksum manifest is missing." }
-if (-not $Installer) { throw "The FormForge Windows installer was not found beside this script." }
+if (-not $Installer) { throw "The 3dare Windows installer was not found beside this script." }
 
 $ExpectedHashes = @{}
 foreach ($Line in Get-Content -LiteralPath $ManifestPath) {
@@ -24,7 +24,8 @@ foreach ($Archive in $RuntimeParts) {
     if ($ActualHash -ne $ExpectedHash) { throw "Checksum mismatch for $($Archive.Name). Re-download the package." }
 }
 
-$AppDataRoot = Join-Path $env:LOCALAPPDATA "local.formforge.image-to-stl"
+$AppDataRoot = Join-Path $env:LOCALAPPDATA "com.3dare.image-to-stl"
+$LegacyAppDataRoot = Join-Path $env:LOCALAPPDATA "local.formforge.image-to-stl"
 if ([string]::IsNullOrWhiteSpace($RuntimeDirectory)) {
     $RuntimeDirectory = Join-Path $AppDataRoot "runtime"
 }
@@ -41,6 +42,15 @@ $RuntimeParent = Split-Path -Parent $RuntimeRoot
 $StagingRoot = "$RuntimeRoot.next"
 $PreviousRoot = "$RuntimeRoot.previous"
 New-Item -ItemType Directory -Path $AppDataRoot -Force | Out-Null
+if (Test-Path -LiteralPath $LegacyAppDataRoot) {
+    foreach ($PathFile in @("runtime-path.txt", "model-cache-path.txt")) {
+        $LegacyPathFile = Join-Path $LegacyAppDataRoot $PathFile
+        $NewPathFile = Join-Path $AppDataRoot $PathFile
+        if ((Test-Path -LiteralPath $LegacyPathFile) -and -not (Test-Path -LiteralPath $NewPathFile)) {
+            Copy-Item -LiteralPath $LegacyPathFile -Destination $NewPathFile
+        }
+    }
+}
 if (-not (Test-Path -LiteralPath $RuntimeParent)) { New-Item -ItemType Directory -Path $RuntimeParent -Force | Out-Null }
 if (Test-Path -LiteralPath $StagingRoot) {
     Remove-Item -LiteralPath $StagingRoot -Recurse -Force
@@ -82,7 +92,7 @@ finally {
 }
 
 $Install = Start-Process -FilePath $Installer.FullName -ArgumentList "/S" -Wait -PassThru
-if ($Install.ExitCode -ne 0) { throw "FormForge installer failed with exit code $($Install.ExitCode)." }
+if ($Install.ExitCode -ne 0) { throw "3dare installer failed with exit code $($Install.ExitCode)." }
 
 $RuntimePathFile = Join-Path $AppDataRoot "runtime-path.txt"
 [System.IO.File]::WriteAllText($RuntimePathFile, $RuntimeRoot, [System.Text.UTF8Encoding]::new($false))
@@ -101,5 +111,5 @@ if (-not [string]::IsNullOrWhiteSpace($ModelCacheDirectory)) {
 }
 
 
-Write-Host "FormForge and its local generation runtime are installed for the current user."
-Write-Host "Launch FormForge from the Start menu. Model weights download on first generation and remain in local application data."
+Write-Host "3dare and its local generation runtime are installed for the current user."
+Write-Host "Launch 3dare from the Start menu. Model weights download on first generation and remain in local application data."

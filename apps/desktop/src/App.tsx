@@ -157,14 +157,14 @@ function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <a className="brand" href="#home" aria-label="FormForge home">
+        <a className="brand" href="#home" aria-label="3dare home">
           <span className="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 32 32" fill="none">
               <path d="m16 3 11 6.5v13L16 29 5 22.5v-13L16 3Z" />
               <path d="m5.5 9.7 10.5 6.2 10.5-6.2M16 16v12.5" />
             </svg>
           </span>
-          <span>FORMFORGE</span>
+          <span>3DARE</span>
           <span className="brand-divider" />
           <span className="brand-context">IMAGE TO 3D</span>
         </a>
@@ -312,7 +312,7 @@ function App() {
         )}
 
         <footer className="workspace-footer">
-          <span>FORMFORGE <span className="footer-separator">/</span> BUILT TO RUN LOCALLY</span>
+          <span>3DARE <span className="footer-separator">/</span> BUILT TO RUN LOCALLY</span>
           <span>LOCAL WORKSPACE <span className="footer-separator">·</span> GENERATE, PREVIEW, EXPORT</span>
         </footer>
       </main>

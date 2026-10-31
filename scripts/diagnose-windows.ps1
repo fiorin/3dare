@@ -1,12 +1,12 @@
 $ErrorActionPreference = "Continue"
 
-$AppRoot = Join-Path $env:LOCALAPPDATA "local.formforge.image-to-stl"
+$AppRoot = Join-Path $env:LOCALAPPDATA "com.3dare.image-to-stl"
 $AppData = Join-Path $AppRoot "data"
 $LogPath = Join-Path $AppData "logs\generation-service.log"
 $HealthUrl = "http://127.0.0.1:8765/api/v1/health"
 $Healthy = $false
 
-Write-Host "FormForge local diagnostics"
+Write-Host "3dare local diagnostics"
 Write-Host "Application data: $AppData"
 $ModelCachePathFile = Join-Path $AppRoot "model-cache-path.txt"
 $ModelCache = $env:HF_HOME
@@ -20,7 +20,7 @@ try {
     $Healthy = $true
 }
 catch {
-    Write-Warning "The local generation service did not respond at $HealthUrl. Open FormForge and retry."
+    Write-Warning "The local generation service did not respond at $HealthUrl. Open 3dare and retry."
 }
 
 $NvidiaSmi = Get-Command nvidia-smi.exe -ErrorAction SilentlyContinue

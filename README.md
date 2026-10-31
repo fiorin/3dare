@@ -1,8 +1,8 @@
-# FormForge
+# 3dare
 
-FormForge is a Windows desktop application for turning a single image into a 3D model locally. It uses TripoSR for image-to-3D generation, previews the resulting GLB, lets you set a target model height in millimeters, and exports binary STL.
+3dare is a Windows desktop application for turning a single image into a 3D model locally. It uses TripoSR for image-to-3D generation, previews the resulting GLB, lets you set a target model height in millimeters, and exports binary STL.
 
-> FormForge creates geometry for further editing. It does not automatically repair meshes or prepare a print-ready project.
+> 3dare creates geometry for further editing. It does not automatically repair meshes or prepare a print-ready project.
 
 ## Features
 
@@ -25,8 +25,8 @@ The runtime needs at least 4.5 GB free on its destination drive. To choose separ
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\setup-windows.ps1 `
-  -RuntimeDirectory E:\FormForgeRuntime `
-  -ModelCacheDirectory E:\FormForgeModels
+  -RuntimeDirectory E:\3dareRuntime `
+  -ModelCacheDirectory E:\3dareModels
 ```
 
 The first generation downloads the approximately 1.68 GB TripoSR checkpoint and DINO image-tokenizer configuration to the local Hugging Face cache. This download is required once; inference runs locally and cached models can be reused offline. Use `scripts/diagnose-windows.ps1` for local service and GPU diagnostics.
